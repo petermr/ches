@@ -1,0 +1,194 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+       <guava.version>18.0</guava.version>
+       <commons-io.version>2.5</commons-io.version>
+       <log4j.version>1.2.16</log4j.version>
+       <commons-lang3.version>3.0</commons-lang3.version>
+       <commons-math.version>2.2</commons-math.version>
+	   <commons-csv.version>1.2</commons-csv.version>
+	   <joda-time.version>1.6.2</joda-time.version>
+	   <xom.version>1.2.5</xom.version>
+	   <junit.version>4.8.2</junit.version>
+	   <xml-apis.version>1.4.01</xml-apis.version>
+       <com.google.code.gson.version>2.3.1</com.google.code.gson.version>
+       <gson.version>2.8.2</gson.version>
+       <json-path.version>2.0.0</json-path.version>
+       <commons-csv.version>1.2</commons-csv.version>
+       
+       	   <!-- if this is uncommented the tests are all skipped
+        <skipTests>true</skipTests>
+        -->
+        <skipITs>true</skipITs>
+       
+    </properties>
+
+    <parent>
+        <groupId>org.contentmine</groupId>
+        <artifactId>cm-parent</artifactId>
+        <version>7.1.0</version>
+    </parent>
+    
+    <groupId>org.contentmine</groupId>
+    <artifactId>ches</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <name>CHES</name>
+    <description>A Java library superset of Cproject Html Euclid Svg</description>
+    <url>http://contentmine.org/ches</url>
+    
+    <developers>
+        <developer>
+            <id>pm286</id>
+            <name>Peter Murray-Rust</name>
+        </developer>
+    </developers>
+
+    <inceptionYear>1994-2018</inceptionYear>
+
+    <build>
+        <plugins>
+<!-- http://maven.apache.org/surefire/maven-failsafe-plugin/usage.html -->    
+	      <plugin>
+	        <groupId>org.apache.maven.plugins</groupId>
+	        <artifactId>maven-failsafe-plugin</artifactId>
+	        <version>2.21.0</version>
+	        <configuration>
+	          <skipITs>${skipITs}</skipITs>
+	        </configuration>
+	        <executions>
+	          <execution>
+	            <goals>
+	              <goal>integration-test</goal>
+	              <goal>verify</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+       </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math</artifactId>
+            <version>${commons-math.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${commons-csv.version}</version>
+		</dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda-time.version}</version>
+        </dependency>
+
+           <dependency>
+            <groupId>xom</groupId>
+            <artifactId>xom</artifactId>
+            <version>${xom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jtidy</groupId>
+            <artifactId>jtidy</artifactId>
+            <version>4aug2000r7-dev</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ccil.cowan.tagsoup</groupId>
+            <artifactId>tagsoup</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>2.15</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.htmlunit</groupId>
+            <artifactId>htmlunit</artifactId>
+            <version>2.15</version>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+		    <version>${xml-apis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+		<!-- this should not be necessary There seems to be a rogue version of 
+			guava somewhere (http://stackoverflow.com/questions/28978277/guava-multisets-copyhighestcountfirst-method-suddenly-not-working) -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+		<!-- https://github.com/jayway/JsonPath/blob/master/README.md -->
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>${json-path.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>${commons-csv.version}</version>
+		</dependency>
+
+    </dependencies>
+
+    <repositories>
+    <repository>
+        <id>cm-pom</id>
+        <url>https://raw.github.com/ContentMine/cm-pom/mvn-repo/</url>
+        <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+        </snapshots>
+    </repository>
+    </repositories>
+
+</project>

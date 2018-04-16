@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     height="800.0" width="600.0">
+	 <defs>
+       <rect id="title.all" class="title centered repeatableY" x="50" y="50" width="400" height="50"
+	     style="fill:none;stroke:blue;stroke-width:2.0;">
+	     <text id="title.text.all" x="50" y="50" style="fill:#000000;font-size:18.0px;font-weight:bold;">Title</text>
+	     </rect>
+	     
+	 </defs>
+    <g class="page.first" id="page.first">
+	  <use xlink:href="#title.all"/>
+	  <!--
+	  <use xlink:href="#title.text.all"/>
+	  -->
+	</g>
+</svg>
