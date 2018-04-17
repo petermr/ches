@@ -222,10 +222,10 @@ public class PageCacheTest {
 				SVGRect totalRect = SVGRect.createFromReal2Range(rowBBox);
 				totalRect.setFill("yellow").setOpacity(0.3);
 				g.appendChild(totalRect);
-				LOG.debug(y+": "+rowRectList);
+				LOG.trace(y+": "+rowRectList);
 				Real2Range intersection = rowBBox.getIntersectionWith(lastBBox);
 				if (intersection != null) {
-					LOG.debug("intersection "+intersection+" // "+lastFontSize+" // "+fontSize);
+					LOG.trace("intersection "+intersection+" // "+lastFontSize+" // "+fontSize);
 					SVGRect intersectionRect = SVGRect.createFromReal2Range(intersection);
 					intersectionRect.setFill("red").setOpacity(0.3);
 					g.appendChild(intersectionRect);
@@ -289,10 +289,10 @@ public class PageCacheTest {
 				SVGRect totalRect = SVGRect.createFromReal2Range(rowBBox);
 				totalRect.setFill("yellow").setOpacity(0.3);
 				g.appendChild(totalRect);
-				LOG.debug(y+": "+rowRectList);
+				LOG.trace(y+": "+rowRectList);
 				Real2Range intersection = rowBBox.getIntersectionWith(lastBBox);
 				if (intersection != null) {
-					LOG.debug("intersection "+intersection+" // "+lastFontSize+" // "+fontSize);
+					LOG.trace("intersection "+intersection+" // "+lastFontSize+" // "+fontSize);
 					SVGRect intersectionRect = SVGRect.createFromReal2Range(intersection);
 					intersectionRect.setFill("red").setOpacity(0.3);
 					g.appendChild(intersectionRect);
@@ -362,7 +362,7 @@ public class PageCacheTest {
 		Assert.assertEquals("bmc", bmcStyle.getPubstyleName());
 		SVGElement page1 = bmcStyle.getRawPage(PageType.P1);
 		Assert.assertNotNull(page1);
-		LOG.debug(page1.toXML());
+		LOG.trace(page1.toXML());
 
 	}
 	

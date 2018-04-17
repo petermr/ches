@@ -34,8 +34,8 @@ public class CorpusCacheTest {
 		// gets this wrong (returns 985??)
 		Assert.assertEquals("doc cache",  10, documentCacheList.size());
 		DocumentCache docCache0 = documentCacheList.get(0);
-		LOG.debug(docCache0);
-		LOG.debug("MADE CORPUS");
+		LOG.trace(docCache0);
+		LOG.trace("MADE CORPUS");
 		List<HtmlElement> htmlElementList = corpusCache.getHtmlElementList();
 		Assert.assertEquals("html files ", 4, htmlElementList.size());
 		HtmlHtml.wrapAndWriteAsHtml(htmlElementList, corpusDir);
@@ -53,8 +53,8 @@ public class CorpusCacheTest {
 		// gets this wrong (returns 985??)
 		Assert.assertEquals("doc cache",  10, documentCacheList.size());
 		DocumentCache docCache0 = documentCacheList.get(0);
-		LOG.debug(docCache0);
-		LOG.debug("MADE CORPUS");
+		LOG.trace(docCache0);
+		LOG.trace("MADE CORPUS");
 		List<HtmlElement> htmlElementList = corpusCache.getHtmlElementList();
 		Assert.assertEquals("html files ", 4, htmlElementList.size());
 		HtmlHtml.wrapAndWriteAsHtml(htmlElementList, corpusDir);

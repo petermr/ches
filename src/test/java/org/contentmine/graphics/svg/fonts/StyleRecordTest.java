@@ -154,7 +154,6 @@ public class StyleRecordTest {
 		List<File> svgFiles = SVGElement.extractSVGFiles(new File(SVGHTMLFixtures.PAGE_DIR, "bmc"));
 		for (File svgFile : svgFiles) {
 			String name = svgFile.getName();
-			LOG.debug(name);
 			List<SVGText> svgTexts = SVGText.extractSelfAndDescendantTexts(SVGElement.readAndCreateSVG(svgFile));
 			StyleRecordFactory styleRecordFactory = new StyleRecordFactory();
 			StyleRecordSet styleRecordSet = styleRecordFactory.createStyleRecordSet(svgTexts);
@@ -171,7 +170,6 @@ public class StyleRecordTest {
 		List<File> svgFiles = SVGElement.extractSVGFiles(new File(SVGHTMLFixtures.PAGE_DIR, "varga/compact"));
 		for (File svgFile : svgFiles) {
 			String name = svgFile.getName();
-			LOG.debug(name);
 			List<SVGText> svgTexts = SVGText.extractSelfAndDescendantTexts(SVGElement.readAndCreateSVG(svgFile));
 			StyleRecordFactory styleRecordFactory = new StyleRecordFactory();
 			StyleRecordSet styleRecordSet = styleRecordFactory.createStyleRecordSet(svgTexts);
@@ -196,7 +194,7 @@ public class StyleRecordTest {
 			RealArray yCoordinateArray = new RealArray(yCoords);
 			yCoordinateArray.sortAscending();
 			Multiset<Double> diffs = yCoordinateArray.createDoubleDifferenceMultiset(1);
-			LOG.debug(styleRecord.getFontName()+" "+diffs+" "+yCoordinateArray);
+			LOG.trace(styleRecord.getFontName()+" "+diffs+" "+yCoordinateArray);
 		}
 	}
 

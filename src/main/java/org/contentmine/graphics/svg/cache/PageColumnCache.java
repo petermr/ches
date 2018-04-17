@@ -44,7 +44,7 @@ public class PageColumnCache extends PageComponentCache {
 				this.allElementList.add(element);
 			}
 		}
-		LOG.debug("BOTTOM "+allElementList.size());
+		LOG.trace("BOTTOM "+allElementList.size());
 	}
 	
 	public Double getYMin() {

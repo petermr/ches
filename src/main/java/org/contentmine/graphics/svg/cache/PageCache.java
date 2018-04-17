@@ -129,7 +129,7 @@ public class PageCache extends ComponentCache {
 	}
 
 	AbstractCMElement createSummaryBoxes(File svgFile) {
-		LOG.debug("CREATE SUMMARY BOXES");
+		LOG.trace("CREATE SUMMARY BOXES");
 		this.inputSvgFile = svgFile;
 		Multiset<Int2Range> intBoxes1 = HashMultiset.create();
 		AbstractCMElement boxg = this.getStyledBoxes(intBoxes1);
@@ -203,7 +203,7 @@ public class PageCache extends ComponentCache {
 		TextCache textCache = getOrCreateTextCache();
 		textCache.createCompactedTextsAndReplace();
 		Real2Range bbox = Real2Range.createTotalBox(getBoundingBoxList());
-		LOG.debug(">> "+bbox+" "+getBoundingBoxList().size());
+		LOG.trace(">> "+bbox+" "+getBoundingBoxList().size());
 		SuperPixelArray superPixelArray = new SuperPixelArray(new Int2Range(bbox));
 		superPixelArray.setPixels(1, getBoundingBoxList());
 		return superPixelArray;
@@ -228,13 +228,13 @@ public class PageCache extends ComponentCache {
 	void readPageLayoutAndMakeBBoxesAndMargins(PageLayout pageLayout) {
 		ensurePageComponentCaches();
 		bodyCache.boundingBox = pageLayout.getBodyLimits();
-		LOG.debug("body "+bodyCache.boundingBox);
+		LOG.trace("body "+bodyCache.boundingBox);
 		this.headerCache.setYMax(bodyCache.boundingBox.getYMin());
 		this.footerCache.setYMin(bodyCache.boundingBox.getYMax());
 		this.leftSidebarCache.setXMax(bodyCache.boundingBox.getXMin());
 		this.rightSidebarCache.setXMin(bodyCache.boundingBox.getXMax());
 		rectsList = pageLayout.getRectList(PageLayout.BODY);
-		LOG.debug("made rects: "+rectsList.size());
+		LOG.trace("made rects: "+rectsList.size());
 	}
 
 	public String getBasename() {

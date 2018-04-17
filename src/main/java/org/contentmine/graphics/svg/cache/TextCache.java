@@ -563,15 +563,15 @@ public class TextCache extends AbstractCache {
 		SVGG g = new SVGG();
 		List<SVGText> texts = extractCurrentTextElementsContainedInBox(cropBox);
 		List<StyleRecord> sortedStyleRecords = createSortedStyleRecords();
-		LOG.debug(sortedStyleRecords.size());
+		LOG.trace(sortedStyleRecords.size());
 		String stroke[] = {"red", "green", "blue", "black"};
 		String fill[] = {"cyan", "magenta", "yellow", "pink"};
 		for (int i = 0; i < sortedStyleRecords.size(); i++) {
 			StyleRecord styleRecord = sortedStyleRecords.get(i);
 			SVGG gg = styleRecord.getSortedCompressedYCoordAPGrid(
 					cropBox.getXRange(), stroke[i % stroke.length], fill[i % fill.length], 0.2);
-			LOG.debug(styleRecord.createSortedCompressedYCoordAPList(0.2));
-			LOG.debug(styleRecord.getCSSStyle());
+			LOG.trace(styleRecord.createSortedCompressedYCoordAPList(0.2));
+			LOG.trace(styleRecord.getCSSStyle());
 			g.appendChild(gg);
 		}
 		return g;
@@ -581,7 +581,7 @@ public class TextCache extends AbstractCache {
 		SVGG g = new SVGG();
 		List<SVGText> texts = extractCurrentTextElementsContainedInBox(cropBox);
 		List<StyleRecord> sortedStyleRecords = createSortedStyleRecords();
-		LOG.debug(sortedStyleRecords.size());
+		LOG.trace(sortedStyleRecords.size());
 		for (int i = 0; i < sortedStyleRecords.size(); i++) {
 			StyleRecordSet leftStyleRecordSet = getStyleRecordSet();
 			SVGElement gg = leftStyleRecordSet.createStyledTextBBoxes(texts);

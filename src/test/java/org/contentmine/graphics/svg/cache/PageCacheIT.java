@@ -186,7 +186,7 @@ public class PageCacheIT {
 			TextCache textCache = componentCache.getOrCreateTextCache();
 			textCache.createCompactedTextsAndReplace();
 			Real2Range bbox = Real2Range.createTotalBox(componentCache.getBoundingBoxList());
-			LOG.debug(">> "+bbox+" "+componentCache.getBoundingBoxList().size());
+			LOG.trace(">> "+bbox+" "+componentCache.getBoundingBoxList().size());
 			SuperPixelArray superPixelArray = new SuperPixelArray(new Int2Range(bbox));
 			superPixelArray.setPixels(1, componentCache.getBoundingBoxList());
 			SVGG g = new SVGG();

@@ -21,8 +21,6 @@ import org.contentmine.cproject.metadata.AbstractMDAnalyzer;
 import org.contentmine.cproject.metadata.AbstractMetadata;
 import org.contentmine.cproject.metadata.MetadataManager;
 import org.contentmine.cproject.metadata.MetadataObjects;
-import org.contentmine.cproject.metadata.crossref.CrossrefAnalyzer;
-import org.contentmine.cproject.metadata.crossref.CrossrefDownloader;
 import org.contentmine.cproject.util.CMineUtil;
 import org.contentmine.cproject.util.RectangularTable;
 import org.junit.Assert;

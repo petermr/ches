@@ -226,9 +226,9 @@ public class SVGPolyline extends SVGPoly {
 					SVGPolyline linej = polylineListNew.get(jline);
 					SVGPolyline newLine = createMergedLine(linei, linej, eps);
 					if (newLine != null) {
-						LOG.debug("Li "+linei);
-						LOG.debug("Lj "+linej);
-						LOG.debug("LINE "+newLine);
+						LOG.trace("Li "+linei);
+						LOG.trace("Lj "+linej);
+						LOG.trace("LINE "+newLine);
 						replaceLineAndCloseUp(iline, newLine, polylineListNew);
 						change = true;
 						break;

@@ -72,7 +72,7 @@ public class PathCache extends AbstractCache{
 		
 		currentPathList = originalPathList;
 		currentPathList = SVGPath.removeShadowedPaths(currentPathList);
-		LOG.debug("Paths time: "+(System.currentTimeMillis() - millis)/1000);
+		LOG.trace("Paths time: "+(System.currentTimeMillis() - millis)/1000);
 		return;
 	}
 

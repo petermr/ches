@@ -105,7 +105,7 @@ public class DocumentCache extends ComponentCache {
 		this.svgFiles = CMFileUtil.sortUniqueFilesByEmbeddedIntegers(svgFiles);
 		convertedSVGElement = new SVGG();
 		pageCacheList = getOrCreatePageCacheList();
-		LOG.debug("pageCacheList "+pageCacheList.size());
+		LOG.trace("pageCacheList "+pageCacheList.size());
 		addPagesToConvertedSVGElement();
 		createHtmlElementFromPages();
 		summarizePages();
@@ -139,13 +139,13 @@ public class DocumentCache extends ComponentCache {
 		makePageLayouts(pubstyle);
 		this.setPageCount(npages);
 		this.getOrCreatePageCacheList();
-		LOG.debug("pageCaches: "+pageCacheList.size());
+		LOG.trace("pageCaches: "+pageCacheList.size());
 		for (int ipage = 1; ipage <= npages; ipage++) {
-			LOG.debug("PAGE "+ipage);
+			LOG.trace("PAGE "+ipage);
 			PageCache pageCache = new PageCache(this);
 			SVGElement boxes = debugPage(pageDir, fileDir, ipage, pageCache);
 			File outFileSVG = new File(targetDir, fileDir+"/fulltext-page" + ipage + DocumentCache.DOT_SVG);
-			LOG.debug("out "+outFileSVG);
+			LOG.trace("out "+outFileSVG);
 			SVGSVG.wrapAndWriteAsSVG(boxes, outFileSVG);
 		}
 	}
@@ -167,7 +167,7 @@ public class DocumentCache extends ComponentCache {
 	}
 
 	private void summarizePages() {
-		LOG.debug("SUMMARIZE PAGES NYI");
+		LOG.trace("SUMMARIZE PAGES NYI");
 	}
 
 	public List<PageCache> getOrCreatePageCacheList() {
@@ -208,7 +208,7 @@ public class DocumentCache extends ComponentCache {
 			LOG.trace("F1: "+svgFile);
 			pageCacheList.add(pageCache);
 			AbstractCMElement extractedSvgCacheElement = pageCache.getExtractedSVGElement();
-			LOG.debug("Got Cache "+ifile);
+			LOG.trace("Got Cache "+ifile);
 			if (extractedSvgCacheElement == null) {
 				throw new RuntimeException("null element in cache");
 			}

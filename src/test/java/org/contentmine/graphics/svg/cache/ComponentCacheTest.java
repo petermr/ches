@@ -55,7 +55,7 @@ public class ComponentCacheTest {
 				if (svgFile.toString().endsWith(DOT_SVG)) {
 					List<String> row = new ArrayList<String>();
 					String filename = svgFile.getName();
-					LOG.debug(filename);
+					LOG.trace(filename);
 					row.add(filename);
 					AbstractCMElement svgElement = SVGElement.readAndCreateSVG(svgFile);
 					ComponentCache cache = new ComponentCache();
@@ -89,7 +89,7 @@ public class ComponentCacheTest {
 				if (filename.endsWith(DOT_SVG)) {
 					List<String> row = new ArrayList<String>();
 					String baseName = FilenameUtils.getBaseName(filename);
-					LOG.debug(baseName);
+					LOG.trace(baseName);
 					row.add(filename);
 					AbstractCMElement svgElement = SVGElement.readAndCreateSVG(svgFile);
 					ComponentCache cache = new ComponentCache();
@@ -190,7 +190,7 @@ public class ComponentCacheTest {
 				if (filename.endsWith(DOT_SVG)) {
 					List<String> row = new ArrayList<String>();
 					String baseName = FilenameUtils.getBaseName(filename);
-					LOG.debug(baseName);
+					LOG.trace(baseName);
 					row.add(filename);
 					ComponentCache cache = new ComponentCache();
 					cache.readGraphicsComponentsAndMakeCaches(svgFile);

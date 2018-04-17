@@ -49,7 +49,7 @@ public class PageBodyCache extends PageComponentCache {
 		Double ymax = pageCache.getOrCreateFooterCache().getYMin();
 		boundingBox = new Real2Range(
 				new RealRange(xmin, xmax), new RealRange(ymin, ymax));
-		LOG.debug("Margins give: "+boundingBox);
+		LOG.trace("Margins give: "+boundingBox);
 		
 	}
 

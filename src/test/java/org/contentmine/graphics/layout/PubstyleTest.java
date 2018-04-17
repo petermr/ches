@@ -16,11 +16,11 @@ import org.contentmine.graphics.svg.SVGText;
 import org.contentmine.graphics.svg.layout.DocumentChunk;
 import org.contentmine.graphics.svg.layout.PubstyleManager;
 import org.contentmine.graphics.svg.layout.SVGPubstyle;
+import org.contentmine.graphics.svg.layout.SVGPubstyle.PageType;
 import org.contentmine.graphics.svg.layout.SVGPubstyleAbstract;
+import org.contentmine.graphics.svg.layout.SVGPubstyleColumn.ColumnPosition;
 import org.contentmine.graphics.svg.layout.SVGPubstyleHeader;
 import org.contentmine.graphics.svg.layout.SVGPubstylePage;
-import org.contentmine.graphics.svg.layout.SVGPubstyle.PageType;
-import org.contentmine.graphics.svg.layout.SVGPubstyleColumn.ColumnPosition;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class PubstyleTest {
 	@Test
 	public void testPubstyleAttributes() {
 		PubstyleManager pubstyleManager = new PubstyleManager();
-		SVGElement svgElement = SVGElement.readAndCreateSVG(new File(CHESConstants.SRC_MAIN_TOP+"/pubstyle/bmc/pubstyle.svg"));
+		SVGElement svgElement = SVGElement.readAndCreateSVG(new File(CHESConstants.SRC_GRAPHICS_RESOURCES+"/pubstyle/bmc/pubstyle.svg"));
 		SVGPubstyle pubstyle = new SVGPubstyle(svgElement, pubstyleManager);
 		LOG.debug("ABS "+pubstyle.getAbstract().toXML());
 		Assert.assertEquals(" DOI ", "10.1186", pubstyle.getDoi());

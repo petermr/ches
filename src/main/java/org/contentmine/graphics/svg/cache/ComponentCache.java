@@ -241,8 +241,8 @@ public class ComponentCache extends AbstractCache {
 			
 			this.getOrCreateCascadingCaches();
 			this.lineCache.createSpecializedLines();
-			LOG.debug("lines: "+lineCache);
-			LOG.debug("text: "+textCache);
+			LOG.trace("lines: "+lineCache);
+			LOG.trace("text: "+textCache);
 			
 			this.debugComponentsToSVGFiles();
 		} else {
@@ -319,7 +319,7 @@ public class ComponentCache extends AbstractCache {
 			this.getOrCreateShapeCache().extractShapes(currentPathList, inputSVGElement);
 			List<SVGShape> shapeList = shapeCache.getOrCreateConvertedShapeList();
 			addElementsToExtractedElement(shapeList);
-			LOG.debug("shapes: "+(System.currentTimeMillis() - millis)/1000);
+			LOG.trace("shapes: "+(System.currentTimeMillis() - millis)/1000);
 		}
 		return shapeCache;
 	}
@@ -653,12 +653,12 @@ public class ComponentCache extends AbstractCache {
 					allElementList.add(shape);
 				}
 			}
-			LOG.debug("rect: "+allElementList.size());
+			LOG.trace("rect: "+allElementList.size());
 			allElementList.addAll(rectCache.getOrCreateElementList());
-			LOG.debug("lines: "+allElementList.size());
+			LOG.trace("lines: "+allElementList.size());
 			allElementList.addAll(lineCache.getOrCreateElementList()); 
 			// this goes last in case it would be hidden
-			LOG.debug("text: "+allElementList.size());
+			LOG.trace("text: "+allElementList.size());
 			List<? extends SVGElement> elementList = textCache.getOrCreateElementList();
 			allElementList.addAll(elementList);
 		}
