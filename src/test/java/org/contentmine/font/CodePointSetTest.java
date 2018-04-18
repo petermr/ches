@@ -28,7 +28,6 @@ import nu.xom.Element;
 
 public class CodePointSetTest {
 
-//	private static final String ORG_XMLCML_PDF2SVG = "org/xmlcml/pdf2svg";
 	private final static Logger LOG = Logger.getLogger(CodePointSet.class);
 	
 	

@@ -131,7 +131,7 @@ public class PDF2SVGConverterIT {
 	@Ignore
 	public void testImages() {
 		PDF2SVGConverter converter = new PDF2SVGConverter();
-		converter.run("-outdir", "target/image/", "src/test/resources/org/xmlcml/pdf2svg/misc/BMCBioinfGood2009.pdf");
+		converter.run("-outdir", "target/image/", "src/test/resources/org/contentmine/pdf2svg/misc/BMCBioinfGood2009.pdf");
 	}
 
 	@Test

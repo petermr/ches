@@ -18,6 +18,10 @@
        <json-path.version>2.0.0</json-path.version>
        <commons-csv.version>1.2</commons-csv.version>
        <pdfbox.version>1.8.8</pdfbox.version>
+       <boofcv-io.version>0.17</boofcv-io.version>
+       <boofcv-feature.version>0.17</boofcv-feature.version>
+       <boofcv-visualize.version>0.17</boofcv-visualize.version>
+       <imgscalr-lib.version>4.2</imgscalr-lib.version>
        
        	   <!-- if this is uncommented the tests are all skipped
         <skipTests>true</skipTests>
@@ -186,6 +190,26 @@
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>${pdfbox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boofcv</groupId>
+            <artifactId>io</artifactId>
+            <version>${boofcv-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boofcv</groupId>
+            <artifactId>feature</artifactId>
+            <version>${boofcv-feature.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.boofcv</groupId>
+            <artifactId>visualize</artifactId>
+            <version>${boofcv-visualize.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.imgscalr</groupId>
+            <artifactId>imgscalr-lib</artifactId>
+            <version>${imgscalr-lib.version}</version>
         </dependency>
 
     </dependencies>

@@ -128,7 +128,7 @@ public class SemiTestIT {
 
 		PDF2SVGConverter converter = new PDF2SVGConverter();
 		converter.run("-outdir", "../pdfs/bmc", "-pages", "1-14",
-				"-pub", "bmc", "src/test/resources/org/xmlcml/graphics/pdf/312.pdf");
+				"-pub", "bmc", "src/test/resources/org/xmlccontentmineml/graphics/pdf/312.pdf");
 
 		for (int pageNum = 1; pageNum <= 14; pageNum++) {
 			File pageNFile = new File("../pdfs/bmc/312-page" + pageNum + ".svg");

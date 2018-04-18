@@ -19,8 +19,8 @@ public class TexCharacterSet {
 
 	private static final String $$CARET = "^^$$CARET";
 	private static final String $$CARET0 = "$$CARET";
-	public final static String LATEX2UNICODE = "src/main/resources/org/xmlcml/pdf2svg/codepoints/latex/unimathsymbols.txt";
-	public final static String LATEX2UNICODE_XML = "src/main/resources/org/xmlcml/pdf2svg/codepoints/latex/unimathsymbols.xml";
+	public final static String LATEX2UNICODE = "src/main/resources/org/contentmine/pdf2svg/codepoints/latex/unimathsymbols.txt";
+	public final static String LATEX2UNICODE_XML = "src/main/resources/org/contentmine/pdf2svg/codepoints/latex/unimathsymbols.xml";
 	private static final Logger LOG = Logger.getLogger(TexCharacterSet.class);
 	public static TexCharacterSet MILDE_SET = null;
 	/*

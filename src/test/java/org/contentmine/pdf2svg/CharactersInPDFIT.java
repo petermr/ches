@@ -16,7 +16,7 @@ public class CharactersInPDFIT {
 	 * will 
 	 */
 	public void testChars() {
-		new PDF2SVGConverter().run("-logger", "-infofiles", "-logglyphs", "-outdir", "target/test", "src/test/resources/org/xmlcml/pdf2svg/misc/");
+		new PDF2SVGConverter().run("-logger", "-infofiles", "-logglyphs", "-outdir", "target/test", "src/test/resources/org/contentmine/pdf2svg/misc/");
 	}
 
 	@Test
