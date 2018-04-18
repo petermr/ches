@@ -3,4 +3,5 @@
 .project
 misc/
 target
+src/test/resources/org/OLD/
 bin/

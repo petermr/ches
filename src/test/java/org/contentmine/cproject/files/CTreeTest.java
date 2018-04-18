@@ -100,14 +100,14 @@ public class CTreeTest {
 		Assert.assertTrue(outputDir.exists());
 		File[] files = outputDir.listFiles();
 		Arrays.sort(files);
-		Assert.assertEquals(3, files.length);
+		Assert.assertEquals(2, files.length);
 		Assert.assertEquals("target:"+TARGET_THESES+"HalThesis1_pdf", 
 				TARGET_THESES+"HalThesis1_pdf", files[0].getPath());
 		File[] childFiles = files[0].listFiles();
 		Assert.assertEquals(1, childFiles.length);
 		Assert.assertEquals("fulltext.pdf", childFiles[0].getName());
 		CTreeList ctreeList = argProcessor.getCTreeList();
-		Assert.assertEquals("ctrees", 3, ctreeList.size());
+		Assert.assertEquals("ctrees", 2, ctreeList.size());
 	}
 	
 	@Test
@@ -130,13 +130,13 @@ public class CTreeTest {
 		Assert.assertTrue(projectDir.exists());
 		File[] files = projectDir.listFiles();
 		Arrays.sort(files);
-		Assert.assertEquals(3, files.length);
+		Assert.assertEquals(2, files.length);
 		Assert.assertEquals(projectDir+"/HalThesis1_pdf", files[0].getPath());
 		File[] childFiles = files[0].listFiles();
 		Assert.assertEquals(1, childFiles.length);
 		Assert.assertEquals("fulltext.pdf", childFiles[0].getName());
 		CTreeList ctreeList = argProcessor.getCTreeList();
-		Assert.assertEquals("ctrees", 3, ctreeList.size());
+		Assert.assertEquals("ctrees", 2, ctreeList.size());
 	}
 	
 	
@@ -311,22 +311,22 @@ public class CTreeTest {
 	public void testGetReservedFiles() throws IOException {
 		File cProjectDir = CMineFixtures.TEST_SAMPLE;
 		CProject cProject = new CProject(cProjectDir);
-		Assert.assertEquals(37, cProject.getResetCTreeList().size());
+		Assert.assertEquals(5, cProject.getResetCTreeList().size());
 		QuickscrapeMD quickscrapeMD = new QuickscrapeMD();
 		quickscrapeMD.setVersion(QuickscrapeMD.OLD_VERSION);
 		CTreeExplorer explorer = new CTreeExplorer().setFilename(quickscrapeMD.getCTreeMetadataFilename());
 		CTreeList cTreeList = cProject.getCTreeList(explorer);
-		Assert.assertEquals(29, cTreeList.size());
+		Assert.assertEquals(3, cTreeList.size());
 		CTreeList epmc = cProject.getCTreeList(new CTreeExplorer().setFilename(Type.EPMC.getCTreeMDFilename()));
-		Assert.assertEquals(4, epmc.size());
-		Assert.assertEquals(29, cProject.getCTreeList(new CTreeExplorer().setFilename(quickscrapeMD.getCTreeMetadataFilename())).size());
-		Assert.assertEquals(3, cProject.getCTreeList(new CTreeExplorer().setFilename(CTree.FULLTEXT_PDF)).size());
+		Assert.assertEquals(2, epmc.size());
+		Assert.assertEquals(3, cProject.getCTreeList(new CTreeExplorer().setFilename(quickscrapeMD.getCTreeMetadataFilename())).size());
+		Assert.assertEquals(1, cProject.getCTreeList(new CTreeExplorer().setFilename(CTree.FULLTEXT_PDF)).size());
 		CTreeList xml = cProject.getCTreeList(new CTreeExplorer().setFilename(CTree.FULLTEXT_XML));
-		Assert.assertEquals(5, xml.size());
-		Assert.assertEquals(3, cProject.getCTreeList(new CTreeExplorer().setFilename(CTree.SCHOLARLY_HTML)).size());
+		Assert.assertEquals(2, xml.size());
+		Assert.assertEquals(1, cProject.getCTreeList(new CTreeExplorer().setFilename(CTree.SCHOLARLY_HTML)).size());
 		CTreeList epmcAndXml = epmc.and(xml);
-		Assert.assertEquals(4,  epmcAndXml.size());
-		Assert.assertEquals(5,  epmc.or(xml).size());
+		Assert.assertEquals(2,  epmcAndXml.size());
+		Assert.assertEquals(2,  epmc.or(xml).size());
 		
 	}
 

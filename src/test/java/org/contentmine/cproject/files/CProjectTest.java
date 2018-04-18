@@ -90,7 +90,10 @@ public class CProjectTest {
 	
 	@Test
 	public void testGetCTreeListWithPrefixes() {
-		CProject cProject = new CProject(new File(CMineFixtures.TEST_OPEN_DIR, "lic20160201"));
+		File cProjectDir = new File(CMineFixtures.TEST_OPEN_DIR, "lic20160201");
+		LOG.debug("cp "+cProjectDir);
+		LOG.debug("files " + cProjectDir.listFiles().length);
+		CProject cProject = new CProject(cProjectDir);
 		CTreeList cTreeList = cProject.getResetCTreeList();
 		Assert.assertEquals("ctrees", 123, cTreeList.size());
 		List<String> doiPrefixes = cProject.getDOIPrefixList();
@@ -237,18 +240,6 @@ public class CProjectTest {
 		
 	}
 	
-	
-	@Test
-	@Ignore
-	public void testGlobFileListHuge() {
-		File patentFile = new File("../patents");
-		if (!patentFile.exists()) return; // only for PMR
-		CProject cProject = new CProject(new File(patentFile, "US08979"));
-		ProjectFilesTree projectFilesTree = cProject.extractProjectFilesTree("**/*");
-		Assert.assertEquals(995,  projectFilesTree.size());
-		Assert.assertEquals(13,  projectFilesTree.get(0).size());
-	}
-
 	
 	@Test
 	@Ignore

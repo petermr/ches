@@ -207,7 +207,7 @@ public class CProjectCommandTest {
 		CMineTestFixtures.cleanAndCopyDir(source1Dir, target1Dir);
 		CProject project1 = new CProject(target1Dir);
 		CTreeList cTreeList = project1.getResetCTreeList();
-		Assert.assertEquals("project1", 6, cTreeList.size());
+		Assert.assertEquals("project1", 4, cTreeList.size());
 		Assert.assertTrue("urls", cTreeList.toString().contains(
 				"target/getpapers/httpUrls/http_dx.doi.org_10.1063_1.4941232"));
 		Assert.assertTrue("urls", cTreeList.toString().contains(
@@ -218,7 +218,7 @@ public class CProjectCommandTest {
 		project1 = new CProject(target1Dir); // because we haven't cleared the counts in the project
 		cTreeList = project1.getResetCTreeList();
 		LOG.trace(cTreeList);
-		Assert.assertEquals("project1", 6, cTreeList.size());
+		Assert.assertEquals("project1", 4, cTreeList.size());
 		Assert.assertTrue("post normalize", cTreeList.toString().contains(
 				"target/getpapers/httpUrls/10.1063_1.4941232"));
 		Assert.assertTrue("urls", cTreeList.toString().contains(
@@ -272,7 +272,7 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		File target1Dir = new File(CMineFixtures.GETPAPERS_TARGET, "molecules");
 		CMineTestFixtures.cleanAndCopyDir(source1Dir, target1Dir);
 		CProject project1 = new CProject(target1Dir);
-		Assert.assertTrue("project1", project1.getResetCTreeList().size() >= 21);
+		Assert.assertEquals("project1", 17, project1.getResetCTreeList().size());
 		String cmd = "--project "+target1Dir.toString()+" --renameCTree noHttp";
 		new CProject().run(cmd);
 		project1 = new CProject(target1Dir); // because we haven't cleared the counts in the project
@@ -296,7 +296,7 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		File target1Dir = new File(CMineFixtures.GETPAPERS_TARGET, "httpUrls");
 		CMineTestFixtures.cleanAndCopyDir(source1Dir, target1Dir);
 		CProject project1 = new CProject(target1Dir);
-		Assert.assertEquals("project1", 6, project1.getResetCTreeList().size());
+		Assert.assertEquals("project1", 4, project1.getResetCTreeList().size());
 		File oldFile = new File(project1.getDirectory(), "http_dx.doi.org_10.1063_1.4941232/results.json");
 		Assert.assertTrue("oldFile exists", oldFile.exists());
 		File newFile = new File(project1.getDirectory(), "http_dx.doi.org_10.1063_1.4941232/quickscrape_result.json");
@@ -305,7 +305,7 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		String cmd = "--project "+target1Dir.toString()+" --renameFile results.json quickscrape_result.json";
 		new CProject().run(cmd);
 		project1 = new CProject(target1Dir); // because we haven't cleared the counts in the project
-		Assert.assertEquals("project1", 6, project1.getResetCTreeList().size());
+		Assert.assertEquals("project1", 4, project1.getResetCTreeList().size());
 		oldFile = new File(project1.getDirectory(), "http_dx.doi.org_10.1063_1.4941232/results.json");
 		Assert.assertFalse("oldFile not exists", oldFile.exists());
 		newFile = new File(project1.getDirectory(), "http_dx.doi.org_10.1063_1.4941232/quickscrape_result.json");
@@ -323,7 +323,7 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		File target1Dir = new File(CMineFixtures.GETPAPERS_TARGET, "httpUrls");
 		CMineTestFixtures.cleanAndCopyDir(source1Dir, target1Dir);
 		CProject project1 = new CProject(target1Dir);
-		Assert.assertEquals("project1", 6, project1.getResetCTreeList().size());
+		Assert.assertEquals("project1", 4, project1.getResetCTreeList().size());
 		File file1 = new File(project1.getDirectory(), "http_dx.doi.org_10.1103_physrevb.93.075101/results.json");
 		Assert.assertTrue("file1 exists", file1.exists());
 		File file2 = new File(project1.getDirectory(), "http_dx.doi.org_10.1103_physrevb.93.075101/fulltext.html");
@@ -332,7 +332,7 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		String cmd = "--project "+target1Dir.toString()+" --deleteFile results.json fulltext.html";
 		new CProject().run(cmd);
 		project1 = new CProject(target1Dir); // because we haven't cleared the counts in the project
-		Assert.assertEquals("project1", 6, project1.getResetCTreeList().size());
+		Assert.assertEquals("project1", 4, project1.getResetCTreeList().size());
 		file1 = new File(project1.getDirectory(), "http_dx.doi.org_10.1103_physrevb.93.075101/results.json");
 		Assert.assertFalse("file1 not exists", file1.exists());
 		file2 = new File(project1.getDirectory(), "http_dx.doi.org_10.1103_physrevb.93.075101/fulltext.html");
@@ -355,12 +355,12 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		File outUrls = new File(target1Dir, "outUrls.txt");
 		Assert.assertFalse(outUrls.getAbsolutePath()+" exists", outUrls.exists());
 		CProject project1 = new CProject(target1Dir);
-		Assert.assertEquals("project1", 43, project1.getResetCTreeList().size());
+		Assert.assertEquals("project1", 4, project1.getResetCTreeList().size());
 		String cmd = "--project "+target1Dir.toString()+" --inUrls "+" urls.txt" +" markEmpty --outUrls outUrls.txt";
 		new CProject().run(cmd);
 		project1 = new CProject(target1Dir); // because we haven't cleared the counts in the project
 		CTreeList cTreeList = project1.getResetCTreeList();
-		Assert.assertEquals("project1", 43, cTreeList.size());
+		Assert.assertEquals("project1", 4, cTreeList.size());
 		Assert.assertTrue("urls", cTreeList.toString().contains(
 				"target/getpapers/lic20160201truncated/http_dx.doi.org_10.1088_1757-899x_106_1_012030"));
 		Assert.assertTrue("urls", cTreeList.toString().contains(
@@ -435,7 +435,7 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		File[] files = outputFile.listFiles();
 		Assert.assertEquals(4, files.length);
 		CProject emptyProject = new CProject(new File(outputFile, "10.0000"));
-		Assert.assertEquals(0,  emptyProject.getResetCTreeList().size());
+		Assert.assertEquals(1,  emptyProject.getResetCTreeList().size());
 		File projectDir1 = new File(outputFile, "10.1001");
 		Assert.assertTrue("project1", projectDir1.listFiles().length > 0); 
 		CProject project1 = new CProject(projectDir1);
@@ -466,9 +466,9 @@ may become unnecessary as getpapers and quickscrape are reconciled
 		CProject emptyProject = new CProject(new File(outputFile, "10.0000"));
 		Assert.assertEquals(0,  emptyProject.getResetCTreeList().size());
 		File projectDir1 = new File(outputFile, "10.1001");
-		Assert.assertEquals("project1", 3, projectDir1.listFiles().length); 
+		Assert.assertEquals("project1", 1, projectDir1.listFiles().length); 
 		CProject project1 = new CProject(projectDir1);
-		Assert.assertEquals(3,  project1.getResetCTreeList().size());
+		Assert.assertEquals(1,  project1.getResetCTreeList().size());
 
 	}
 	
