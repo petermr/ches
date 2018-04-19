@@ -21,19 +21,5 @@ public class HistogramEQTest {
         ImageIOUtil.writeImageQuietly(histogramEQ.getEqualized(), "target/histogram/histogram.png");
 
 	}
-	/** histogram on photograph.
-	 * 
-	 * not sure this is worth it. Brings up the background too much
-	 * 
-	 * @throws IOException
-	 */
-	@Test
-	public void testMoleculePhotograph() throws IOException {
-    	HistogramEqualization histogramEQ = new HistogramEqualization();
-        histogramEQ.readImage(ImageAnalysisFixtures.MOLECULE_20131119_JPG);
-        histogramEQ.histogramEqualization();
-        ImageIOUtil.writeImageQuietly(histogramEQ.getEqualized(), "target/histogram/molecule.png");
-
-	}
 
 }

@@ -34,7 +34,7 @@ public class PixelSegment {
 	/**
 	 * @param x12
 	 * @param serial
-	 * @see org.contentmine.graphics.svg.SVGLine#setXY(org.contentmine.euclid.Real2, int)
+	 * @see org.contentmine.graphics.svg.SVGLine#setXY(org.contentmine.eucl.euclid.Real2, int)
 	 */
 	public void setXY(Real2 x12, int serial) {
 		line.setXY(x12, serial);
