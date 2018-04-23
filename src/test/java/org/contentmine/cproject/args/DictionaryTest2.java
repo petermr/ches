@@ -15,9 +15,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 @Ignore // moved to AMI
-public class DictionaryTest {
+public class DictionaryTest2 {
 
-	private static final Logger LOG = Logger.getLogger(DictionaryTest.class);
+	private static final Logger LOG = Logger.getLogger(DictionaryTest2.class);
 	static {
 		LOG.setLevel(org.apache.log4j.Level.DEBUG);
 	}
