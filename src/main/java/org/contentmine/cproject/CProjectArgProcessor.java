@@ -89,7 +89,7 @@ public class CProjectArgProcessor extends DefaultArgProcessor {
 	private String removeUrlsWithPrefixesFilename;
 
 	public CProjectArgProcessor() {
-		super();
+		super(CProjectArgProcessor.class);
 		this.readArgumentOptions(this.getArgsResource());
 	}
 	

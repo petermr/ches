@@ -94,6 +94,7 @@ public class DiagramAnalyzer {
 
 	protected boolean debug;
 	protected ImageProcessor imageProcessor;
+	protected DiagramLog diagramLog;
 	private int maxInput;
 	protected String skipFileString;
 	protected File skipFile;

@@ -84,7 +84,7 @@ public class CodePointSetTest {
 	
 	@Test
 	public void testInclude() throws Exception {
-		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_XMLCML_PDF2SVG + "/codepoints/test/mtsyn.xml");
+		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_CM_PDF2SVG + "/codepoints/test/mtsyn.xml");
 		Assert.assertNotNull("codePointSet", codePointSet);
 		List<CodePoint> codePoints = codePointSet.getCodePoints();
 		Assert.assertEquals("codePoints", 97, codePoints.size());
@@ -92,7 +92,7 @@ public class CodePointSetTest {
 
 	@Test
 	public void testIncludeSearch1() throws Exception {
-		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_XMLCML_PDF2SVG + "/codepoints/test/mtsyn.xml");
+		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_CM_PDF2SVG + "/codepoints/test/mtsyn.xml");
 		CodePoint codePoint = codePointSet.getByDecimal(65);
 		Assert.assertNotNull("A", codePoint);
 		Assert.assertNotNull("A", codePoint.getUnicodePoint());
@@ -101,7 +101,7 @@ public class CodePointSetTest {
 
 	@Test
 	public void testIncludeSearchNonAnsi() throws Exception {
-		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_XMLCML_PDF2SVG + "/codepoints/test/mtsyn.xml");
+		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_CM_PDF2SVG + "/codepoints/test/mtsyn.xml");
 		CodePoint codePoint = codePointSet.getByDecimal(5); 
 		Assert.assertNotNull("SOLIDUS", codePoint);
 		Assert.assertNotNull("SOLIDUS", codePoint.getUnicodePoint());
@@ -111,7 +111,7 @@ public class CodePointSetTest {
 
 	@Test
 	public void testMainResources() throws Exception {
-		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_XMLCML_PDF2SVG + "/codepoints/defacto/mtsyn.xml");
+		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_CM_PDF2SVG + "/codepoints/defacto/mtsyn.xml");
 		int size = codePointSet.size();
 		Assert.assertTrue(String.valueOf(size), size >= 8 && size <= 5000); // this will change
 		

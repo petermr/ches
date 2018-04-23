@@ -126,7 +126,6 @@ import nu.xom.Node;
 public class DefaultArgProcessor {
 	
 	private static final String ORG_CONTENTMINE_CPROJECT = "/org/contentmine/cproject";
-	private static final String DOT_XML = ".xml";
 	private static final Logger LOG = Logger.getLogger(DefaultArgProcessor.class);
 	static {
 		LOG.setLevel(Level.DEBUG);
@@ -139,8 +138,6 @@ public class DefaultArgProcessor {
 	public final static String H = "-h";
 	public final static String HELP = "--help";
 	private static String RESOURCE_NAME_TOP = ORG_CONTENTMINE_CPROJECT + "/args";
-	// FIXME when AMI is refactored
-	private static String AMI_DICTIONARY_RESOURCE = ORG_CONTENTMINE_CPROJECT + "/ami2/plugins/dictionary/";
 	protected static final String ARGS_XML = "args.xml";
 	private static String ARGS_RESOURCE = RESOURCE_NAME_TOP+"/"+ARGS_XML;
 	private static final String NAME = "name";
@@ -226,6 +223,11 @@ public class DefaultArgProcessor {
 		parseArgs(args);
 	}
 
+	public DefaultArgProcessor(Class clazz) {
+		ensureDefaultLogFiles();
+		readArgumentOptions(clazz, getArgsResource());
+	}
+
 	private void ensureDefaultLogFiles() {
 		TREE_LOG();
 		PROJECT_LOG();
@@ -264,12 +266,15 @@ public class DefaultArgProcessor {
 		return ARGS_RESOURCE;
 	}
 	
-	public void readArgumentOptions(String resourceName) {
+	public void readArgumentOptions(Class clazz, String resourceName) {
 		ensureArgumentOptionList();
 		try {
-			InputStream is = this.getClass().getResourceAsStream(resourceName);
+//			InputStream is = clazz.getClassLoader().getResourceAsStream(resourceName);
+			InputStream is = clazz.getResourceAsStream(resourceName);
 			if (is == null) {
-				throw new RuntimeException("Cannot find input resource stream: "+resourceName);
+				String message = "Cannot find input resource stream: class("+clazz+"); "+resourceName;
+				LOG.debug("************************* "+message);
+				throw new RuntimeException(message);
 			}
 			Element argListElement = new Builder().build(is).getRootElement();
 			projectLog = this.getOrCreateLog(logfileName);
@@ -279,6 +284,10 @@ public class DefaultArgProcessor {
 		} catch (Exception e) {
 			throw new RuntimeException("Cannot read/process args file "+resourceName, e);
 		}
+	}
+
+	public void readArgumentOptions(String resourceName) {
+		readArgumentOptions(DefaultArgProcessor.class, resourceName);
 	}
 
 	private void createArgumentOptions(Element argElement) {
@@ -431,10 +440,13 @@ public class DefaultArgProcessor {
 		setFilter(filterStrings);
 	}
 
+	// move to ami
+	/**
 	public void parseDictionary(ArgumentOption option, ArgIterator argIterator) {
 		List<String> dictionarySources = argIterator.createTokenListUpToNextNonDigitMinus(option);
 		createAndAddDictionaries(dictionarySources);
 	}
+*/
 
 	public void runMakeDocs(ArgumentOption option) {
 		transformArgs2html();
@@ -787,7 +799,11 @@ public class DefaultArgProcessor {
 		}
 	}
 
-
+/**
+ * move to ami
+ * @param dictionarySources
+ */
+	/*
 	public void createAndAddDictionaries(List<String> dictionarySources) {
 		ensureDictionaryList();
 		for (String dictionarySource : dictionarySources) {
@@ -817,7 +833,7 @@ public class DefaultArgProcessor {
 			dictionaryList = new ArrayList<DefaultStringDictionary>();
 		}
 	}
-
+*/
 
 	protected void printVersion() {
 		DefaultArgProcessor.getVersionManager().printVersion();

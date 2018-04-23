@@ -16,7 +16,7 @@ public class MathPi1Test {
 
 	@Test
 	public void testReadCodePointSet() {
-		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_XMLCML_PDF2SVG + "/codepoints/defacto/mathpi1.xml");
+		CodePointSet codePointSet = CodePointSet.readCodePointSet(CHESConstants.ORG_CM_PDF2SVG + "/codepoints/defacto/mathpi1.xml");
 		Assert.assertNotNull(MATHPI1_XML, codePointSet);
 		Assert.assertTrue(MATHPI1_XML+" "+codePointSet.size(), codePointSet.size() > 10 && codePointSet.size() < 300);
 	}
