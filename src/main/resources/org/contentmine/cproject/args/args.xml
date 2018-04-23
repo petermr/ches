@@ -408,8 +408,9 @@
      </help>
     </arg>
      
+     <!-- 
  <arg name="dictionary"
-     long="--c.dictionary"
+     long="- -c.dictionary"
      args="source [source]"
      parseMethod="parseDictionary"
      countRange="{1,*}"
@@ -419,7 +420,7 @@
      in some cases they may also be symbolic.</p>
      </help>
  </arg>
-
+-->
  
  <arg name="filter"
      long="--filter"
