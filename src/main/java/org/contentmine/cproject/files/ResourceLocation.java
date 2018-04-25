@@ -94,8 +94,12 @@ public class ResourceLocation {
 	 * @return Opened stream, or null if not found
 	 */
 	public InputStream getInputStreamHeuristically(String name) {
+		return getInputStreamHeuristically(this.getClass(), name);
+	}
+
+	public InputStream getInputStreamHeuristically(Class clazz, String name) {
 		InputStream is = null;
-		is = getStreamFromResource(name);
+		is = getStreamFromResource(clazz, name);
 
 		if (is == null) {
 			is = getStreamFromURL(name);
@@ -103,7 +107,10 @@ public class ResourceLocation {
 		if (is == null) {
 			try {
 				File f = new File(name);
-				LOG.trace("FILE "+f.getAbsolutePath());
+				if (!f.exists()) {
+					throw new FileNotFoundException("file "+f);
+				}
+				LOG.debug("FILE "+f.getAbsolutePath());
 				is = new FileInputStream(name);
 			} catch (FileNotFoundException e) {
 				if (ResourceLocation.ResourceType.FILE.equals(resourceType)) {
@@ -113,6 +120,7 @@ public class ResourceLocation {
 		}
 		return is;
 	}
+
 
 	private InputStream getStreamFromURL(String name) {
 		InputStream is = null;
@@ -128,8 +136,11 @@ public class ResourceLocation {
 	}
 
 	private InputStream getStreamFromResource(String name) {
-		InputStream is;
-		is = ResourceLocation.class.getResourceAsStream(name);
+		return getStreamFromResource(ResourceLocation.class, name);
+	}
+
+	private InputStream getStreamFromResource(Class clazz, String name) {
+		InputStream is = clazz.getResourceAsStream(name);
 		if (is == null ) {
 			if (ResourceLocation.ResourceType.RESOURCE.equals(resourceType)) {
 				throw new RuntimeException("failed to resolve as RESOURCE: "+name);
