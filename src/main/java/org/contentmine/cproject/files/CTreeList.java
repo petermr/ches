@@ -77,6 +77,7 @@ public class CTreeList implements Iterable<CTree> {
 	 */
 	public CTree get(String name) {
 		ensureCTreeList();
+//		LOG.debug(cTreeByName);
 		return cTreeByName.get(name);
 	}
 	
@@ -164,10 +165,11 @@ public class CTreeList implements Iterable<CTree> {
 		return directoryList;
 	}
 
-	public void sort() {
+	public CTreeList sort() {
 		if (cTreeList != null) {
 			Collections.sort(cTreeList);
 		}
+		return this;
 	}
 
 	/** does this cTreeList contain a directory of the same name as cTree2

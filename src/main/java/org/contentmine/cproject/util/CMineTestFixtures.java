@@ -30,11 +30,16 @@ public class CMineTestFixtures {
 
 
 	public static ProjectSnippetsTree createProjectSnippetsTree(File testZikaFile, String snippetsName) throws IOException {
-		File targetDir = new File("target/relevance/zika");
-		CMineTestFixtures.cleanAndCopyDir(testZikaFile, targetDir);
+		File targetDir = createCleanedCopiedDirectory(testZikaFile, new File("target/relevance/zika"));
 		Element snippetsTreeXML = XMLUtil.parseQuietlyToDocument(new File(targetDir, snippetsName)).getRootElement();;
 		ProjectSnippetsTree projectsSnippetsTree = ProjectSnippetsTree.createProjectSnippetsTree(snippetsTreeXML);
 		return projectsSnippetsTree;
+	}
+
+
+	public static File createCleanedCopiedDirectory(File testZikaFile, File targetDir) {
+		CMineTestFixtures.cleanAndCopyDir(testZikaFile, targetDir);
+		return targetDir;
 	}
 
 

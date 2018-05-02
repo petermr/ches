@@ -122,6 +122,27 @@ The results file include the regexes used and other metadata (more needed!). Aga
  */
 public class CTree extends CContainer implements Comparable<CTree> {
 
+
+
+	enum TableFormat {
+		ANNOT_PNG("table.annot.png"),
+		ANNOT_SVG("table.annot.svg"),
+		TABLE_ROW_HTML("tableRow.html"),
+		TABLE_SVG("table.svg"),
+		TABLE_SVG_CSV("table.svg.csv"),
+		TABLE_SVG_HTML("table.svg.html"),
+		TABLE_SVG__ANNOT_SVG("table.svg..annot.svg"), // note repeated _ and . this is a misprint I think
+		TABLE_SVG_SVG_HTML("table.svg.svg.html"),
+		TRIMSVG_PNG("trimsvg.png"),
+		;
+		private String filename;
+		private String regex;
+		private TableFormat(String filename) {
+			this.filename = filename;
+			this.regex = ".*/"+filename.replaceAll("\\.", "\\\\.");
+		}
+	};
+	
 	private static final Logger LOG = Logger.getLogger(CTree.class);
 	static {
 		LOG.setLevel(Level.DEBUG);
@@ -220,21 +241,25 @@ public class CTree extends CContainer implements Comparable<CTree> {
 	 * 
 	 */
 	public static final String IMAGE_DIR         = "image/";
+	public static final String SVG_IMAGES_DIR    = "images/";
 	public static final String PDF_DIR           = "pdf/";
 	public static final String RESULTS_DIR       = "results/";
 	public static final String SUPPLEMENTAL_DIR  = "supplement/";
 	public static final String SVG_DIR           = "svg/";
 	public static final String TABLE_DIR         = "table/";
+	public static final String TABLES_DIR        = "tables/";
 
 	public final static List<String> RESERVED_DIR_NAMES;
 	static {
 			RESERVED_DIR_NAMES = Arrays.asList(new String[] {
 					IMAGE_DIR,
+					SVG_IMAGES_DIR,
 					PDF_DIR,
 					RESULTS_DIR,
 					SUPPLEMENTAL_DIR,
 					SVG_DIR,
-					TABLE_DIR,
+					TABLE_DIR,  // probably Deprecated
+					TABLES_DIR, // maybe duplicate
 			});
 	}
 	
@@ -310,6 +335,8 @@ public class CTree extends CContainer implements Comparable<CTree> {
 		TABLES,
 	};
 	
+	
+	
 	protected static final Pattern[] ALLOWED_DIR_PATTERNS = new Pattern[] {
 	};
 	
@@ -332,6 +359,11 @@ public class CTree extends CContainer implements Comparable<CTree> {
 		if (!name.endsWith("/")) name += "/";
 		return RESERVED_DIR_NAMES.contains(name);
 	}
+	
+	private static final String TABLE_DIR_PREFIX = "table";
+	private static final String TABLE_SERIAL = TABLE_DIR_PREFIX + "\\d+";
+	public static final String TABLE_D = ".*/" + TABLE_SERIAL;
+
 	
 	private List<File> reservedFileList;
 	private List<File> nonReservedFileList;
@@ -753,6 +785,116 @@ public class CTree extends CContainer implements Comparable<CTree> {
 		return isExistingFile(imageFile) ? imageFile : null;
 	}
 
+	// SVG ===========================
+	
+	public File getExistingSVGDir() {
+		return getExistingReservedDirectory(SVG_DIR, false);
+	}
+
+	public File getOrCreateExistingSVGDir() {
+		return getExistingReservedDirectory(SVG_DIR, true);
+	}
+
+	public List<File> getExistingSVGFileList() {
+		File svgDir = getExistingSVGDir();
+		List<File> files = new ArrayList<File>();
+		if (svgDir != null) {
+			List<File> svgFiles0 = Arrays.asList(svgDir.listFiles());
+//			LOG.debug("Svg list "+svgFiles0.size());
+			CMineGlobber globber = new CMineGlobber().setRegex(".*/fulltext-page\\d+.svg").setLocation(svgDir);
+			files = globber.listFiles();
+		}
+		return files;
+	}
+
+	// SVG IMAGES===========================
+	// this is a child directory of svg (svg/images)
+	public File getExistingSVGImagesDir() {
+		File svgDir = getExistingReservedDirectory(SVG_DIR, false);
+		File svgImageDir = null;
+		if (svgDir != null) {
+			svgImageDir = new File(svgDir, SVG_IMAGES_DIR);
+			if (!svgImageDir.exists() || !svgImageDir.isDirectory()) {
+				svgImageDir = null;
+			}
+		}
+		return svgImageDir;
+	}
+
+	public List<File> getExistingSVGImagesFileList() {
+		File svgImagesDir = getExistingSVGImagesDir();
+		List<File> files = new ArrayList<File>();
+		if (svgImagesDir != null) {
+			CMineGlobber globber = new CMineGlobber().setRegex(".*/fulltext\\.p\\d+\\.i\\d+\\.(png|jpg|tiff?)").setLocation(svgImagesDir);
+			files = globber.listFiles();
+		}
+		return files;
+	}
+
+	// SVG TABLES===========================
+	// this is a child directory of svg (svg/images)
+	public File getExistingSVGTablesDir() {
+		File tablesDir = getExistingReservedDirectory(TABLES, false);
+		if (tablesDir != null) {
+		}
+		return tablesDir;
+	}
+
+	public List<File> getExistingSVGTablesDirList() {
+		File svgTablesDir = getExistingSVGTablesDir();
+		List<File> files = new ArrayList<File>();
+		if (svgTablesDir != null) {
+			CMineGlobber globber = new CMineGlobber().setRegex(TABLE_D).setLocation(svgTablesDir).setUseDirectories(true).setUseFiles(false);
+			globber.setDebug(false);
+			files = globber.listFiles();
+			removeNonDirectories(files);
+		}
+		return files;
+	}
+
+	/**
+	 * gets table file of form table12
+	 * 
+	 * @param serial serial from 1
+	 * @return null if not found
+	 */
+	public File getExistingTableDirSerial(int serial) {
+		List<File> files = getExistingSVGTablesDirList();
+		for (File file : files) {
+			if (file.getName().equals(TABLE_DIR_PREFIX+serial)) {
+				return file;
+			}
+		}
+		return null;
+	}
+	
+	public List<File> getExistingTableFiles(int serial, TableFormat format) {
+		List<File> tableFiles = new ArrayList<File>();
+		File tablesDir = this.getExistingTableDirSerial(serial);
+		if (tablesDir != null) {
+			CMineGlobber globber = new CMineGlobber();
+			globber.setRegex(format.regex).setLocation(tablesDir);
+			globber.setDebug(false);
+			tableFiles = globber.listFiles();
+		}
+		return tableFiles;
+	}
+	
+	public File getExistingTableFile(int serial, TableFormat format) {
+		List<File> tableFiles = getExistingTableFiles(serial, format);
+		return tableFiles.size() == 1 ? tableFiles.get(0) : null;
+	}
+	
+
+	private static void removeNonDirectories(List<File> files) {
+		for (int i = files.size() - 1; i >= 0; i--) {
+			if (!files.get(i).isDirectory()) {
+				files.remove(i);
+			}
+		}
+	}
+
+
 // ---
 	/** checks that this 
 	 * 
@@ -895,6 +1037,7 @@ public class CTree extends CContainer implements Comparable<CTree> {
 		return filename;
 	}
 
+	
 	public Element getMetadataElement() {
 		Element metadata = new Element("cTree");
 		metadata.appendChild(this.toString());

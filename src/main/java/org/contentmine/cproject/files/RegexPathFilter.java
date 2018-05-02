@@ -68,6 +68,7 @@ public class RegexPathFilter implements IOFileFilter {
 		List<File> files = new ArrayList<File>();
 		while (iterator.hasNext()) {
 			File file = iterator.next();
+			LOG.trace("fileXX "+file);
 			Matcher matcher = pattern.matcher(file.toString());
 			if (matcher.matches()) {
 				if (includeFiles && !file.isDirectory() ||

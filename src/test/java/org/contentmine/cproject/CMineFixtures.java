@@ -29,9 +29,13 @@ public class CMineFixtures {
 	
 	public final static File TEST_DOWNLOAD_DIR = new File(TEST_CMINE_DIR, "download");
 	
+	public final static File TEST_MISC_DIR = new File(TEST_FILES_DIR, "misc");
 	public final static File TEST_PROJECTS_DIR = new File(TEST_FILES_DIR, "projects");
 	public final static File TEST_RESULTS_DIR = new File(TEST_FILES_DIR, "results");
-	public final static File TEST_MISC_DIR = new File(TEST_FILES_DIR, "misc");
+	public final static File TEST_SVG_DIR = new File(TEST_FILES_DIR, "svg");
+	public final static File TEST_TABLES_DIR = new File(TEST_FILES_DIR, "tables");
+	public final static File TEST_PDF_SVG_DIR = new File(TEST_SVG_DIR, "pdfSvg");
+	
 	public static final File TEST_CROSSREF_DIR = new File(CMineFixtures.TEST_DOWNLOAD_DIR, "crossref");
 	public static final File TEST_CROSSREF_SAMPLE = new File(CMineFixtures.TEST_CROSSREF_DIR, "sample");
 	public static final File TEST_QUICKSCRAPE_DIR = new File(CMineFixtures.TEST_DOWNLOAD_DIR, "quickscrape");
@@ -60,7 +64,7 @@ public class CMineFixtures {
 	public static final File SCRAPER_DIR = new File("../../journal-scrapers/scrapers");
 	public static final File GETPAPERS_SMALL = new File(GETPAPERS_NEW, "201601small");
 	public static final File OPEN = new File("../open");
-	
+
 	
 	public static boolean exist(File file) {
 		boolean exist = true;

@@ -666,9 +666,12 @@ public class CProjectArgProcessor extends DefaultArgProcessor {
 	
 	private void renameFiles() {
 		if (renameFileOptions.size() == 2) {
-			File oldFile = new File(currentCTree.getDirectory(), renameFileOptions.get(0));
-			File newFile = new File(currentCTree.getDirectory(), renameFileOptions.get(1));
+			String inputRegex = renameFileOptions.get(0);
+			String outputRegex = renameFileOptions.get(1);
+			File oldFile = new File(currentCTree.getDirectory(), inputRegex);
+			File newFile = new File(currentCTree.getDirectory(), outputRegex);
 			if (oldFile.exists()) {
+				// FIXME rename should use regex
 				boolean renamed = oldFile.renameTo(newFile);
 				if (!renamed) {
 					LOG.error("could not rename "+oldFile+" to "+newFile);

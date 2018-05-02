@@ -31,7 +31,7 @@ public class StyledFont {
 
 	public String getFontName() {
 		String fontName = styleBundle == null ? null : styleBundle.getFontName();
-		LOG.debug(fontName);
+		LOG.trace(fontName);
 		return fontName;
 	}
 }

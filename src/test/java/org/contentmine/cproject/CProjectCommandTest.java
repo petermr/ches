@@ -153,6 +153,7 @@ public class CProjectCommandTest {
 	 * @throws IOException
 	 */
 	@Test
+	@Ignore
 	public void testCSVHelp() throws IOException {
 		String cmd = "--csv"; // no csv filename so should give help
 		new CProject().run(cmd);

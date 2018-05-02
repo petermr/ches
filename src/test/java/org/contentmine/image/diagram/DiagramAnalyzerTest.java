@@ -129,7 +129,7 @@ public class DiagramAnalyzerTest {
 		PixelIsland pixelIsland = pixelIslandList.get(0);
 		PixelGraph graph = new PixelGraph(pixelIsland);
 		graph.compactCloseNodes(3);
-		LOG.debug(graph);
+		LOG.trace(graph);
 		Assert.assertEquals(4,  graph.getOrCreateNodeList().size());
 		Assert.assertEquals(5,  graph.getOrCreateEdgeList().size());
 		PixelIslandList newIslandLists = graph.resolveCyclicCrossing();
@@ -251,7 +251,7 @@ public class DiagramAnalyzerTest {
 		ColorFrequenciesMap colorFrequencies = colorAnalyzer.getOrCreateColorFrequenciesMap();
 		for (RGBColor color : colorFrequencies.keySet()) {
 			String hex = color.getHex();
-			LOG.debug(hex+": "+colorFrequencies.get(color));
+			LOG.trace(hex+": "+colorFrequencies.get(color));
 			BufferedImage image2 = colorAnalyzer.getImage(color);
 			File hexFile = new File(outdir, "poster."+hex+".png");
 			ImageIOUtil.writeImageQuietly(image2, hexFile);
@@ -270,11 +270,11 @@ public class DiagramAnalyzerTest {
 		PixelEdge edge = pixelIslandList.get(serial).getOrCreateGraph().getOrCreateEdgeList().get(0);
 		PixelEdge edge1 = edge.cyclise();
 		edge = edge1 == null ? edge : edge1;
-		LOG.debug("edge "+edge);
-		LOG.debug("cycle "+edge.isCyclic());
-		LOG.debug("node "+edge.getNodes().size()+"; "+edge.getNodes());
+		LOG.trace("edge "+edge);
+		LOG.trace("cycle "+edge.isCyclic());
+		LOG.trace("node "+edge.getNodes().size()+"; "+edge.getNodes());
 		PixelSegmentList segmentList = edge.getOrCreateSegmentList(1.0);
-		LOG.debug("S: "+segmentList.size()+"; "+segmentList);
+		LOG.trace("S: "+segmentList.size()+"; "+segmentList);
 		SVGElement g = segmentList.getOrCreateSVG();
 		for (PixelSegment segment : segmentList) {
 			plotPoint(g, segment, 0);

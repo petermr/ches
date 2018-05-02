@@ -208,6 +208,7 @@ public class DefaultArgProcessor {
 	protected Pattern fileFilterPattern;
 	private IOFileFilter ioFileFilter;
 	public String outputFileRegex;
+	protected CHESRunner runner;
 
 	protected List<ArgumentOption> getArgumentOptionList() {
 		return argumentOptionList;
@@ -571,11 +572,14 @@ public class DefaultArgProcessor {
 	private void finalMakeProject() {
 		if (fileFilterPattern == null) {
 			throw new RuntimeException("must have --fileFilter for makeProject");
+			// make default fileFilterPattern
+		}
+		getCProject();
+		if (cProject == null) {
+			throw new RuntimeException("missing --project");
 		}
 		moveFilesIntoMatchedFieldPattern(cProject.getDirectory(), fileFilterPattern, outputFileRegex);		
 	}
-
-
 
 	private void outputDFCounts() {
 		ResultsElement resultsElement = ResultsElement.getResultsElementSortedByCount(documentMultiset);
@@ -1234,15 +1238,22 @@ public class DefaultArgProcessor {
 		LOG.trace("MAIN LOOP "+cTreeList);
 		ensureCTreeList();
 		if (cTreeList.size() == 0) {
-			if (projectDirString != null) {
+			CProject cProject = null;
+			if (runner != null) {
+				cProject = runner.getCProject();
+			}
+			if (projectDirString == null) {
+				File cProjectDirectory = cProject == null ? null : cProject.getDirectory();
+				projectDirString = cProjectDirectory == null ? null : cProjectDirectory.toString();
+			}
+			if (output == null && projectDirString != null) {
 				output = projectDirString;
-			} else if (output != null) {
-				LOG.warn("no --project given; using --output");
-				projectDirString = output;
+			}
+		
+			if (output == null) {
+//				throw new RuntimeException("no --output given");
+				LOG.warn("no --output given");
 			} else {
-				LOG.warn("No --project or --output; ");
-//				printHelp();
-				return;
 			}
 			LOG.trace("treating as CTree creation under project "+projectDirString);
 			runRunMethodsOnChosenArgOptions();
@@ -1361,6 +1372,9 @@ public class DefaultArgProcessor {
 	}
 	
 	public CProject getCProject() {
+		if (cProject == null) {
+			cProject = runner == null ? null : runner.getCProject();
+		}
 		return cProject;
 	}
 
@@ -1397,9 +1411,20 @@ public class DefaultArgProcessor {
 			}
 		}
 
-	protected void moveFilesIntoMatchedFieldPattern(File directory, Pattern fileFilterPattern, String outputFileRegex) {
-		Pattern matchField = Pattern.compile("\\(\\\\\\d+\\)");
-		List<File> files = new RegexPathFilter(fileFilterPattern).listNonDirectoriesRecursively(directory);
+	/**
+	 * renames numbered files (I think
+	 * 
+	 * @param directory
+	 * @param inputFileFilterPattern
+	 * @param outputFileRegex
+	 */
+	
+	public static void moveFilesIntoMatchedFieldPattern(File directory, Pattern inputFileFilterPattern, String outputFileRegex) {
+		// melts down to "(\d+)" after de-escaping!
+		// captures the capture group numbers!
+		Pattern bracketedCaptureGroupNumberPattern = Pattern.compile("\\(\\\\\\d+\\)"); 
+		List<File> files = new RegexPathFilter(inputFileFilterPattern).listNonDirectoriesRecursively(directory);
+		LOG.debug("files "+directory+" && "+files);
 		for (File file : files) {
 			String inputPath;
 			try {
@@ -1407,11 +1432,12 @@ public class DefaultArgProcessor {
 			} catch (IOException e) {
 				throw new RuntimeException("cannot canonicalize "+file, e);
 			}
-			Matcher inputMatcher = fileFilterPattern.matcher(inputPath);
-			if (!inputMatcher.matches()) {
-				throw new RuntimeException("BUG: "+fileFilterPattern+ "  should match "+inputPath);
+			Matcher inputFileFilterMatcher = inputFileFilterPattern.matcher(inputPath);
+			if (!inputFileFilterMatcher.matches()) {
+				throw new RuntimeException("BUG: "+inputFileFilterPattern+ "  should match "+inputPath);
 			}
-			String newFileName = replaceMatchingGroups(matchField, inputPath, inputMatcher, fileFilterPattern, outputFileRegex);
+//			String newFileName = replaceMatchingGroups(matchField, inputPath, inputMatcher, fileFilterPattern, outputFileRegex);
+			String newFileName = replaceMatchingGroups(bracketedCaptureGroupNumberPattern, inputFileFilterMatcher, outputFileRegex);
 			File newFile = new File(directory, newFileName);
 			LOG.trace(file+" ==> "+newFile);
 			if (!newFile.exists()) {
@@ -1426,29 +1452,60 @@ public class DefaultArgProcessor {
 		}
 	}
 
-	private String replaceMatchingGroups(Pattern matchField, String inputPath, Matcher inputMatcher, Pattern fileFilterPattern, String template) {
+	/**
+	 * 
+	 * @param bracketedCaptureGroupNumberPattern searches the outputFileRegex for the brackets
+	 * @param inputMatcher already matched groups in input pattern
+	 * @param outputFileRegex regex for injecting matched parts of names into output file
+	 * @return
+	 */
+	private static String replaceMatchingGroups(Pattern bracketedCaptureGroupNumberPattern, Matcher inputMatcher, String outputFileRegex) {
 		int idx = 0;
 		StringBuilder sb = new StringBuilder();
-		Matcher fieldMatcher = matchField.matcher(template);
-		LOG.trace(inputPath+"; "+fileFilterPattern+"; "+template);
-		while (fieldMatcher.find(idx)) {
-			int start = fieldMatcher.start();
-			String chunk = template.substring(idx, start);
+		Matcher outputFileRegexMatcher = bracketedCaptureGroupNumberPattern.matcher(outputFileRegex);
+		while (outputFileRegexMatcher.find(idx)) {
+			int start = outputFileRegexMatcher.start();
+			String chunk = outputFileRegex.substring(idx, start);
 			LOG.trace("chunk "+chunk);
 			sb.append(chunk);
-			int end = fieldMatcher.end();
-			String groupS = template.substring(start + 2, end - 1);
+			int end = outputFileRegexMatcher.end();
+			String groupS = outputFileRegex.substring(start + 2, end - 1);
 			LOG.trace("group "+groupS);
 			Integer group = Integer.parseInt(groupS);
 			if (group > inputMatcher.groupCount()) {
-				throw new RuntimeException("bad group match; cannot find "+groupS+" in "+inputPath);
+//				throw new RuntimeException("bad group match; cannot find "+groupS+" in "+inputPath);
+				throw new RuntimeException("bad group match; cannot find "+groupS);
 			}
 			sb.append(inputMatcher.group(group));
 			idx = end;
 		}
-		sb.append(template.substring(idx));
+		sb.append(outputFileRegex.substring(idx));
 		return sb.toString();
 	}
+
+//	private static String replaceMatchingGroups(Pattern matchField, String inputPath, Matcher inputMatcher, Pattern fileFilterPattern, String template) {
+//		int idx = 0;
+//		StringBuilder sb = new StringBuilder();
+//		Matcher fieldMatcher = matchField.matcher(template);
+//		LOG.trace(inputPath+"; "+fileFilterPattern+"; "+template);
+//		while (fieldMatcher.find(idx)) {
+//			int start = fieldMatcher.start();
+//			String chunk = template.substring(idx, start);
+//			LOG.trace("chunk "+chunk);
+//			sb.append(chunk);
+//			int end = fieldMatcher.end();
+//			String groupS = template.substring(start + 2, end - 1);
+//			LOG.trace("group "+groupS);
+//			Integer group = Integer.parseInt(groupS);
+//			if (group > inputMatcher.groupCount()) {
+//				throw new RuntimeException("bad group match; cannot find "+groupS+" in "+inputPath);
+//			}
+//			sb.append(inputMatcher.group(group));
+//			idx = end;
+//		}
+//		sb.append(template.substring(idx));
+//		return sb.toString();
+//	}
 
 	/** messy - refactor - creates directory.
 	 * 
@@ -1467,6 +1524,14 @@ public class DefaultArgProcessor {
 			}
 		}
 		return outputDir;
+	}
+
+	public void setRunner(CHESRunner runner) {
+		this.runner = runner;
+	}
+
+	public CHESRunner getRunner() {
+		return this.runner;
 	}
 
 }

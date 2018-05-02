@@ -12,6 +12,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
@@ -96,6 +97,9 @@ public class CMineGlobber {
 	private String location;
 	private String pathString;
 	private List<File> fileList;
+	private boolean debug = false;
+	private boolean useDirectories = false;
+	private boolean useFiles = true;
 
 
 	public CMineGlobber() {
@@ -122,14 +126,32 @@ public class CMineGlobber {
 
 			@Override
 			public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-				if (pathMatcher.matches(path)) {
+				if (debug) {
+					LOG.debug("m "+pathString+"; p "+path);
+				}
+				if (pathMatcher.matches(path) && useFiles) {
 					fileList.add(path.toFile());
 				}
 				return FileVisitResult.CONTINUE;
 			}
 
 			@Override
+		    public FileVisitResult preVisitDirectory(Path path, BasicFileAttributes attrs)
+		            throws IOException {
+				if (debug) {
+					LOG.debug("dir "+pathString+"; p "+path);
+				}
+				if (pathMatcher.matches(path) && useDirectories) {
+					fileList.add(path.toFile());
+				}
+				return FileVisitResult.CONTINUE;
+		    }
+
+			@Override
 			public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+				if (debug) {
+					LOG.debug("m "+pathString+"; d "+file);
+				}
 				return FileVisitResult.CONTINUE;
 			}
 		});
@@ -188,10 +210,14 @@ public class CMineGlobber {
 		return this;
 	}
 
-	public List<File> listFiles() throws IOException {
+	public List<File> listFiles() {
 		fileList = new ArrayList<File>();
 		if (location != null && pathString != null) {
-			match(pathString, location);
+			try {
+				match(pathString, location);
+			} catch (IOException e) {
+				throw new RuntimeException("Cannot glob: "+pathString+"; "+location);
+			}
 		}
 		return fileList;
 	}
@@ -221,14 +247,32 @@ public class CMineGlobber {
 	 */
 	public static List<File> listGlobbedFilesQuietly(File directory, String glob) {
 		List<File> files = new ArrayList<File>();
-		try {
-			CMineGlobber globber = new CMineGlobber(glob, directory);
-			files = globber.listFiles();
-		} catch (IOException e) {
-			throw new RuntimeException("Cannot glob files, ", e);
-		}
+		CMineGlobber globber = new CMineGlobber(glob, directory);
+		files = globber.listFiles();
 		return files;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public String getPathString() {
+		return pathString;
+	}
+
+	public CMineGlobber setDebug(boolean b) {
+		this.debug = b;
+		return this;
+	}
+
+	public CMineGlobber setUseDirectories(boolean b) {
+		this.useDirectories = b;
+		return this;
+	}
+
+	public CMineGlobber setUseFiles(boolean b) {
+		this.useFiles = b;
+		return this;
+	}
 
 }

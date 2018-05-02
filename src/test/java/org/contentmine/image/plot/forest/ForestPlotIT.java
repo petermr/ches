@@ -38,13 +38,13 @@ public class ForestPlotIT {
 		String fileRoot = "blue";
 		String plotType = "forest";
 		File imageFile = new File(ImageAnalysisFixtures.DIAGRAMS_DIR, plotType + "/"+fileRoot+".png");
-		LOG.debug("image "+imageFile);
+		LOG.trace("image "+imageFile);
 		Assert.assertTrue("file exists "+imageFile, imageFile.exists());
 		
 		ColorAnalyzer colorAnalyzer = new ColorAnalyzer();
 		colorAnalyzer.readImage(imageFile);
 		colorAnalyzer.setOutputDirectory(new File("target/"+fileRoot+"1"));
-		LOG.debug("colorAnalyze "+imageFile);
+		LOG.trace("colorAnalyze "+imageFile);
 		colorAnalyzer.defaultPosterize();
 	
 	}
@@ -76,7 +76,7 @@ public class ForestPlotIT {
 //			pixelRingListList.sort(new PixelRingListComparator());
 			Collections.reverse(pixelRingListList);
 			for (PixelRingList pixelRingList : pixelRingListList) {
-				LOG.debug(pixelRingList.get(0).size());
+				LOG.trace(pixelRingList.get(0).size());
 			}
 			PixelRingList pixelRingList = pixelRingListList.get(0);
 			SVGG g = null;
@@ -87,10 +87,8 @@ public class ForestPlotIT {
 				g = null;
 				g = pixelRing.plotPixels(g, "red");
 				SVGSVG.wrapAndWriteAsSVG(g, new File(targetDir, fileRoot+"/allRings"+i+".svg"));
-				LOG.debug("i "+i);
 			}
 			PixelList pixelRing10 = pixelRingList.get(10);
-			LOG.debug("PR "+pixelRing10);
 			PixelIslandList pl;
 	//		PixelIslandList ringIslandList = PixelIslandList.;
 	
